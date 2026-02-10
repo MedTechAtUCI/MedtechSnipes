@@ -51,7 +51,7 @@ const PlayerPicker = ({ visible, onHide, onSelect, title, playersList }) => (
             left={() => (
               <Avatar.Image 
                 size={48} 
-                source={ typeof player.image === 'number' || typeof player.image === 'object' ? player.image : { uri: player.image}} 
+                source={ {uri: Image.resolveAssetSource(player.image)?.uri} } 
                 key={player.name}
                 style={{ backgroundColor: '#E1E1E1' }}
               />
@@ -96,11 +96,12 @@ export default function App() {
 
     if (isWeb) {
       players.forEach((player) => {
-        // Create a hidden image object to force the browser to cache the file
         const img = new window.Image();
-        // Handle the .default issue automatically
-        const src = typeof player.image === 'object' ? (player.image.default || player.image) : player.image;
-        img.src = src;
+        // Resolve the require object to a string URI
+        const imageSource = Image.resolveAssetSource(player.image);
+        if (imageSource && imageSource.uri) {
+          img.src = imageSource.uri;
+        }
       });
     }
   }, []);
