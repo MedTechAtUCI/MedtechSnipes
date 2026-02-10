@@ -51,7 +51,7 @@ const PlayerPicker = ({ visible, onHide, onSelect, title, playersList }) => (
             left={() => (
               <Avatar.Image 
                 size={48} 
-                source={player.image} 
+                source={ typeof player.image === 'number' || typeof player.image === 'object' ? player.image : { uri: player.image}} 
                 key={player.name}
                 style={{ backgroundColor: '#E1E1E1' }}
               />
