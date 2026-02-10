@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch: # Allows you to "Force Start" the deployment manually
 
 permissions:
   contents: write 
@@ -14,36 +15,30 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.19.1'
-
-      - name: List files in directory
-        run: ls medtech-website
-
-      - name: Set environment variable
-        run: |
-          echo "REACT_APP_AWS_API_GATEWAY_URL=${{ secrets.REACT_APP_AWS_API_GATEWAY_URL }}" >> $GITHUB_ENV
-          echo "REACT_APP_AWS_USER_POOLS_ID=${{ secrets.REACT_APP_AWS_USER_POOLS_ID }}" >> $GITHUB_ENV
-          echo "REACT_APP_AWS_USER_POOLS_WEB_CLIENT_ID=${{ secrets.REACT_APP_AWS_USER_POOLS_WEB_CLIENT_ID }}" >> $GITHUB_ENV
-          echo "REACT_APP_DOMAIN=${{ secrets.REACT_APP_DOMAIN }}" >> $GITHUB_ENV
-          echo "REACT_APP_CALLBACK_SIGNIN=${{ secrets.REACT_APP_CALLBACK_SIGNIN }}" >> $GITHUB_ENV
-          echo "AWS_API_GATEWAY_URL=${{ secrets.AWS_API_GATEWAY_URL }}" >> $GITHUB_ENV
+          node-version: '20' # Updated to a modern LTS version
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
-        working-directory: .
+        run: npm ci # 'npm ci' is faster and more reliable in CI/CD
 
       - name: Build the app
-        run: CI=false npm run build
-        working-directory: .
+        run: npx expo export --platform web --clear
+        env:
+          # Expo SDK 50+ uses EXPO_PUBLIC_ prefix for env vars
+          EXPO_PUBLIC_BASE_URL: /MedtechSnipes 
+          CI: false
+
+      - name: Add .nojekyll
+        run: touch dist/.nojekyll # This fixes the underscore folder issue permanently
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          publish_branch: Website_Deployment
+          publish_branch: gh-pages # It's best to use the standard gh-pages branch
