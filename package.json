@@ -2,11 +2,14 @@
   "name": "medtechsnipes",
   "version": "1.0.0",
   "main": "index.js",
+  "homepage": "https://medtechatuci.github.io/MedtechSnipes/",
   "scripts": {
     "start": "expo start --tunnel --clear",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --clear --web"
+    "web": "expo start --clear --web",
+    "build": "npx expo export --platform web --clear && echo > dist/.nojekyll",
+    "deploy": "gh-pages -d dist -t"
   },
   "dependencies": {
     "@expo/metro-runtime": "^6.1.2",
@@ -26,5 +29,8 @@
     "react-native-vector-icons": "^10.3.0",
     "react-native-web": "^0.21.2"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
 }

@@ -26,6 +26,7 @@
       "bundler": "metro",
       "favicon": "./assets/medtech_snipes_logo.png",
       "display": "standalone",
+      "output": "single",
       "meta": {
         "apple-mobile-web-app-capable": "yes",
         "apple-mobile-web-app-status-bar-style": "black-translucent"
@@ -33,10 +34,13 @@
       "config": {
         "pwa": {
           "manifest": {
-            "start_url": "/"
+            "start_url": "/MedtechSnipes"
           }
         }
       }
+    },
+    "experiments": {
+      "baseUrl": "/MedtechSnipes"
     },
     "plugins": [
       "expo-font"
