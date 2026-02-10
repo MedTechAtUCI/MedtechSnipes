@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "MedtechSnipes",
+    "slug": "MedtechSnipes",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/medtech_snipes_logo.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/medtech_snipes_logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/medtech_snipes_logo.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/medtech_snipes_logo.png",
+      "display": "standalone",
+      "meta": {
+        "apple-mobile-web-app-capable": "yes",
+        "apple-mobile-web-app-status-bar-style": "black-translucent"
+      },
+      "config": {
+        "pwa": {
+          "manifest": {
+            "start_url": "/"
+          }
+        }
+      }
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
