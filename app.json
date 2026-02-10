@@ -29,6 +29,7 @@
       "output": "single",
       "meta": {
         "mobile-web-app-capable": "yes",
+        "apple-mobile-web-app-capable": null,
         "apple-mobile-web-app-status-bar-style": "black-translucent"
       },
       "config": {

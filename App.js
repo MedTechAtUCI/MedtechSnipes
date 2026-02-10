@@ -51,7 +51,7 @@ const PlayerPicker = ({ visible, onHide, onSelect, title, playersList }) => (
             left={() => (
               <Avatar.Image 
                 size={48} 
-                source={ Image.resolveAssetSource(player.image) } 
+                source={ typeof player.image === 'object' ? { uri: player.image.uri || player.image.default } : player.image } 
                 key={player.name}
                 style={{ backgroundColor: '#E1E1E1' }}
               />
@@ -93,17 +93,6 @@ export default function App() {
     }
 
     loadName();
-
-    if (isWeb) {
-      players.forEach((player) => {
-        const img = new window.Image();
-        // Resolve the require object to a string URI
-        const imageSource = Image.resolveAssetSource(player.image);
-        if (imageSource && imageSource.uri) {
-          img.src = imageSource.uri;
-        }
-      });
-    }
   }, []);
 
   const pickImage = async () => {
