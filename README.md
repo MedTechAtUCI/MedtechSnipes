@@ -47,17 +47,14 @@ This mobile-friendly web app is built using:
    ```bash
    git clone https://github.com/MedTechAtUCI/MedtechSnipes.git
    cd MedtechSnipes
-   ```bash
 
 2. Install dependencies:
    ```bash
    npm install
-   ```bash
 
 3. Run the development server:
    ```bash
    npx expo start
-   ```bash
 
 4. Open the app:
    * Press 'w' to open in your web browser.
@@ -87,8 +84,8 @@ Distributed under the GPL-3.0 License. See LICENSE for more information.
 Medtech@UCI is a premier student organization dedicated to the intersection of medicine and technology. We provide students with hands-on projects, professional networking, and a community of innovators.
 
 Connect with us:
-* Website: https://medtechatuci.com
-* Instagram: https://www.instagram.com/medtechatuci/
+* Website: https://antartiqcmed.org/
+* Instagram: https://www.instagram.com/medtechuci/
 
 ---
 *Created with ❤️ by the Medtech@UCI Tech Team.*
