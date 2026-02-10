@@ -31,6 +31,7 @@ jobs:
         env:
           # Expo SDK 50+ uses EXPO_PUBLIC_ prefix for env vars
           EXPO_PUBLIC_BASE_URL: /MedtechSnipes 
+          PUBLIC_URL: https://medtechatuci.github.io/MedtechSnipes/
           CI: false
 
       - name: Add .nojekyll
