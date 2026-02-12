@@ -1,4 +1,4 @@
-# 📸 MedtechSnipes
+# 📸 [MedtechSnipes](https://medtechatuci.github.io/MedtechSnipes/)
 
 **MedtechSnipes** is a gamified, IRL social app designed exclusively for members of **Medtech@UCI**. Our goal is to bridge the gap between formal club meetings by encouraging spontaneous interactions and community building across the UCI campus.
 
