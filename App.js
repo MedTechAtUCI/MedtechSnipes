@@ -111,7 +111,7 @@ export default function App() {
 
         console.log(result)
 
-        setPlayerScores(result.scores);
+        setPlayerScores(JSON.parse(result.scores));
       } catch (e) {
         console.error("Failed to load name");
       }
@@ -214,7 +214,7 @@ export default function App() {
 
       const result = await response.json();
 
-      setPlayerScores(result.scores);
+      setPlayerScores(JSON.parse(result.scores));
 
       if (result.status === "success") {
         alert("Success!", `Snipes have been uploaded!!!`);
