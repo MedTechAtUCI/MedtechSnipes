@@ -35,30 +35,42 @@ function alert(title, body) {
   }
 }
 
-const PlayerPicker = ({ visible, onHide, onSelect, title, playersList }) => (
+const PlayerPicker = ({ visible, onHide, onSelect, title, playersList, playerScores, currentSniper }) => (
   <Portal>
     <Modal visible={visible} onDismiss={onHide} contentContainerStyle={styles.modalStyle}>
       <Text variant="headlineSmall" style={styles.modalTitle}>{title}</Text>
       <ScrollView style={{ maxHeight: 400 }}>
-        {playersList.map((player, index) => (
-          <List.Item
-            key={index}
-            title={player.name}
-            onPress={() => {
-              onSelect(index);
-              onHide();
-            }}
-            left={() => (
-              <Avatar.Image 
-                size={48} 
-                source={ typeof player.image === 'object' ? { uri: player.image.uri || player.image.default } : player.image } 
-                key={player.name}
-                style={{ backgroundColor: '#E1E1E1' }}
-              />
-            )}
-            style={styles.listItem}
-          />
-        ))}
+        {playersList.map((player, index) => {
+          if (Number(index) === Number(currentSniper)) 
+            return null;
+
+          return (
+              <List.Item
+              key={index}
+              title={player.name}
+              onPress={() => {
+                onSelect(index);
+                onHide();
+              }}
+              left={() => (
+                <Avatar.Image 
+                  size={48} 
+                  source={ typeof player.image === 'object' ? { uri: player.image.uri || player.image.default } : player.image } 
+                  key={player.name}
+                  style={{ backgroundColor: '#E1E1E1' }}
+                />
+              )}
+              right={() => (
+                <View style={{ justifyContent: 'center', paddingRight: 10 }}>
+                  <Text variant="titleMedium" style={{ fontWeight: 'bold', color: '#40b5fd' }}>
+                    {`Score: ${(playerScores && playerScores[player.name]) ? playerScores[player.name] : "No Score"}`}
+                  </Text>
+                </View>
+              )}
+              style={styles.listItem}
+            />
+          )}
+        )}
       </ScrollView>
       <Button onPress={onHide} style={{marginTop: 10}}>Cancel</Button>
     </Modal>
@@ -70,6 +82,7 @@ export default function App() {
     ...MaterialCommunityIcons.font,
   });
 
+  const [playerScores, setPlayerScores] = useState(null);
   const [sniperNameId, setSniperNameId] = useState(null);
   const [targetNameId, setTargetNameId] = useState(0);
   const [visibleSniper, setVisibleSniper] = useState(false);
@@ -82,11 +95,23 @@ export default function App() {
     const loadName = async () => {
       try {
         const savedNameIndex = await AsyncStorage.getItem('@user_index');
+
         if (savedNameIndex !== null) {
           setSniperNameId(savedNameIndex);
         } else {
           setVisibleSniper(true); // Force name entry if new user
         }
+
+        const response = await fetch(medtechEndpoint, {
+          method: 'GET',
+          redirect: 'follow',
+        });
+
+        const result = await response.json();
+
+        console.log(result)
+
+        setPlayerScores(result.scores);
       } catch (e) {
         console.error("Failed to load name");
       }
@@ -151,7 +176,6 @@ export default function App() {
           // 1. Create a File object from the asset URI
           const file = new File(uri);
           
-          // 2. Use the new .base64() method (it's asynchronous)
           const base64String = await file.base64();
           
           return base64String;
@@ -179,7 +203,6 @@ export default function App() {
         images: base64Array,
       };
 
-      // Sending to a dummy URL (JSONPlaceholder or a webhook site)
       const response = await fetch(medtechEndpoint, {
         method: 'POST',
         headers: {
@@ -190,6 +213,8 @@ export default function App() {
       });
 
       const result = await response.json();
+
+      setPlayerScores(result.scores);
 
       if (result.status === "success") {
         alert("Success!", `Snipes have been uploaded!!!`);
@@ -254,7 +279,9 @@ export default function App() {
               contentStyle={styles.pickerTriggerContent}
               icon="account"
             >
-              {sniperNameId !== null ? players[sniperNameId].name : "Select Your Name"}
+              {sniperNameId !== null 
+                ? `${players[sniperNameId].name} | Score: ${playerScores && playerScores[players[sniperNameId].name] ? playerScores[players[sniperNameId].name] : "No Score"}` 
+                : "Select Your Name"}
             </Button>
 
             <View style={{ height: 15 }} />
@@ -267,7 +294,7 @@ export default function App() {
               contentStyle={styles.pickerTriggerContent}
               icon="target"
             >
-              {players[targetNameId].name}
+              {`${players[targetNameId].name} | Score: ${playerScores && playerScores[players[targetNameId].name] ? playerScores[players[targetNameId].name] : "No Score"}`}
             </Button>
           </Card.Content>
         </Card>
@@ -279,9 +306,18 @@ export default function App() {
           playersList={players}
           title="Who are you?"
           onSelect={async (index) => {
-            setSniperNameId(index);
+            setSniperNameId((_prev) => {
+              if (Number(targetNameId) === Number(index)) {
+                setTargetNameId(0);
+              }
+
+              return index;
+            });
+
             await AsyncStorage.setItem('@user_index', index.toString());
           }}
+          playerScores={playerScores}
+          currentSniper={-1}
         />
 
         <PlayerPicker 
@@ -290,6 +326,8 @@ export default function App() {
           playersList={players}
           title="Who did you catch?"
           onSelect={(index) => setTargetNameId(index)}
+          playerScores={playerScores}
+          currentSniper={sniperNameId}
         />
 
         {/* 1. Selection Button */}
