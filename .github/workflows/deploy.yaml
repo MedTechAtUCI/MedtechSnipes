@@ -30,8 +30,8 @@ jobs:
         run: npx expo export --platform web --clear
         env:
           # Expo SDK 50+ uses EXPO_PUBLIC_ prefix for env vars
-          EXPO_PUBLIC_BASE_URL: /MedtechSnipes 
-          PUBLIC_URL: https://medtechatuci.github.io/MedtechSnipes/
+          EXPO_PUBLIC_BASE_URL: /
+          PUBLIC_URL: http://snipes.medtech-uci.com/
           CI: false
 
       - name: Add .nojekyll
@@ -43,3 +43,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages # It's best to use the standard gh-pages branch
+          cname: snipes.medtech-uci.com
