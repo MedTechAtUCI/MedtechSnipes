@@ -24,6 +24,7 @@
     },
     "web": {
       "bundler": "metro",
+      "baseUrl": "/",
       "favicon": "./assets/medtech_snipes_logo.png",
       "display": "standalone",
       "output": "single",

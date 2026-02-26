@@ -2,7 +2,7 @@
   "name": "medtechsnipes",
   "version": "1.0.0",
   "main": "index.js",
-  "homepage": "https://medtechatuci.github.io/MedtechSnipes/",
+  "homepage": "http://snipes.medtech-uci.com/",
   "scripts": {
     "start": "expo start --tunnel --clear",
     "android": "expo start --android",
