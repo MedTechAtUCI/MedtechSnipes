@@ -109,8 +109,6 @@ export default function App() {
 
         const result = await response.json();
 
-        console.log(result)
-
         setPlayerScores(JSON.parse(result.scores));
       } catch (e) {
         console.error("Failed to load name");
