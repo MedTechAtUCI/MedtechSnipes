@@ -35,13 +35,13 @@
       "config": {
         "pwa": {
           "manifest": {
-            "start_url": "/MedtechSnipes"
+            "start_url": "/"
           }
         }
       }
     },
     "experiments": {
-      "baseUrl": "/MedtechSnipes"
+      "baseUrl": "/"
     },
     "plugins": [
       "expo-font"
